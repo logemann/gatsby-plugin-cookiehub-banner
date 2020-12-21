@@ -52,7 +52,6 @@ var onRenderBody = function onRenderBody(_ref, pluginOptions) {
                     (function(_document,_window,b){
                       var e=_document.getElementsByTagName("script")[0],element=_document.createElement("script");
                       element.async=true;
-                      alert(window.location.hostname);
                       if(stageHosts && stageHosts.includes(window.location.hostname) && stageMode == "demo") {
                          element.src='${cookieHubDemoUrl}';
                       } else {

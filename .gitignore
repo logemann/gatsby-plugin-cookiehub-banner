@@ -30,3 +30,6 @@ jspm_packages/
 .env
 .env.test
 .env*.local
+
+/gatsby-node.js
+/gatsby-ssr.js
