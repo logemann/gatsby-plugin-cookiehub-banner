@@ -2,13 +2,13 @@
   "name": "gatsby-plugin-cookiehub-banner",
   "description": "Gatsby plugin to use cookie banner generated with cookiehub: https://www.cookiehub.com/",
   "version": "0.1.0",
-  "author": "VirtualFox0",
+  "author": "Logemann",
   "bugs": {
-    "url": "https://github.com/VirtualFox0/gatsby-plugin-cookiehub-banner/issues"
+    "url": "https://github.com/logemann/gatsby-plugin-cookiehub-banner/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/VirtualFox0/gatsby-plugin-cookiehub-banner.git"
+    "url": "https://github.com/logemann/gatsby-plugin-cookiehub-banner.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
