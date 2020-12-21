@@ -97,8 +97,8 @@ you leave out this param, every request, no matter which host, is treated as pro
 Optional parameter (can be 'demo' *or* 'off'. Defaults to 'demo')
 
 This parameter should only be used when at least one entry in 'stageHosts' is given. If in **demo** mode
-the cookiehub demo URL is created. See [StageEnv Info on Cookiehub](https://support.cookiehub.com/hc/en-us/articles/360049072112-Why-does-the-CookieHub-widget-show-up-on-every-page-view-)
-in 'off' mode, a request to a staging URL results in no script loaded at all. This is useful for
+the cookiehub demo URL is created. See [StageEnv Info on Cookiehub](https://support.cookiehub.com/hc/en-us/articles/360049072112-Why-does-the-CookieHub-widget-show-up-on-every-page-view-).
+In **off** mode, a request to a staging URL results in no script loaded at all. This is useful for
 automated visual testing tools (like percy), where you dont want to have the Cookiebanner on each page.  
 
 
