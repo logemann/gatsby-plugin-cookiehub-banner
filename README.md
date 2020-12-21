@@ -37,7 +37,7 @@ module.exports = {
             options: {
                 // The ID is part of the CookieHub URL: https://cookiehub.net/cc/YOUR_COOKIEHUB_ID.js
                 cookieHubId: "YOUR_COOKIEHUB_BANNER_ID",
-                // (Optional) parameter (default false) - Use new v2 API.
+                // (Optional) parameter (default true) - Use new v2 API.
                 cookieHubV2Api: false,
                 // (Optional) see description in docs 
                 // stageHosts: ["localhost"],
@@ -79,7 +79,7 @@ The ID is part of the CookieHub URL: https://cookiehub.net/cc/YOUR_COOKIEHUB_ID.
 
 ### `cookieHubV2Api`
 
-Optional parameter (default false).
+Optional parameter (default true).
 
 If true the plugin uses the new Cookiehub API v2.
 
