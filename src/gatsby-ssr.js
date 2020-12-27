@@ -1,115 +1,175 @@
-"use strict";
+/**
+ * Configure your Gatsby site with this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/gatsby-config/
+ *
+ * All configuration related things are here
+ *
+ * This is configuration file
+ */
+require("dotenv").config();
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-exports.__esModule = true;
-exports.onRenderBody = void 0;
+module.exports = {
+    siteMetadata: {
+        author: `@logemann`,
+        siteUrl: `https://okaycloud.de`,
+        title: `We deliver high end cloud software solutions`,
+        titleSuffix: `okaycloud`,
+        image: `/images/og/okaycloud-main-og.png`,
+        description: `okaycloud creates your cloud projects. At home in Berlin, germany's startup capital, we help companies ramp up their projects or migrate existing software projects to the cloud. `,
+        keywords: `aws, consulting, cloud, okaycloud, architecture, development, berlin`
 
-var _react = _interopRequireDefault(require("react"));
+    },
+    /* Your site config here */
+    plugins: [
+        {
+            resolve: `gatsby-plugin-manifest`,
+            options: {
+                icon: 'src/assets/images/favicon.png',
+                name: `okaycloud UG`,
+                short_name: `okaycloud UG`,
+                start_url: `/`,
+                background_color: `#f7f0eb`,
+                theme_color: `#4FB8A3`,
+                display: `standalone`,
+            },
+        },
+        {
+            resolve: "gatsby-plugin-google-tagmanager",
+            options: {
+                id: "GTM-WQ2X46H",
 
-function isV2ApiEnabled(pluginOptions) {
-    return pluginOptions.cookieHubV2Api !== undefined ? pluginOptions.cookieHubV2Api : false;
-}
+                // Include GTM in development.
+                //
+                // Defaults to false meaning GTM will only be loaded in production.
+                includeInDevelopment: false,
 
-var onRenderBody = function onRenderBody(_ref, pluginOptions) {
-    var setHeadComponents = _ref.setHeadComponents,
-        setPostBodyComponents = _ref.setPostBodyComponents;
+                // datalayer to be set before GTM is loaded
+                // should be an object or a function that is executed in the browser
+                //
+                // Defaults to null
+                defaultDataLayer: { platform: "gatsby" },
 
-    if (!pluginOptions.cookieHubId) {
-        return null;
-    }
+                // Specify optional GTM environment details.
+                //gtmAuth: "YOUR_GOOGLE_TAGMANAGER_ENVIRONMENT_AUTH_STRING",
+                //gtmPreview: "YOUR_GOOGLE_TAGMANAGER_ENVIRONMENT_PREVIEW_NAME",
+                //dataLayerName: "YOUR_DATA_LAYER_NAME",
 
-    var setComponents = pluginOptions.head ? setHeadComponents : setPostBodyComponents;
-    var apiVersion = isV2ApiEnabled(pluginOptions) ? 'c2' : 'cc';
-
-    var cookieHubUrl = "https://cookiehub.net/" + apiVersion + "/" + pluginOptions.cookieHubId + ".js";
-    var cookieHubDemoUrl = "https://cookiehub.net/dev/" + apiVersion + "/" + pluginOptions.cookieHubId + ".js";
-
-    var cookieNames = {};
-
-    for (var i = 0; i < pluginOptions.categories.length; i++) {
-        var category = pluginOptions.categories[i];
-        cookieNames[category.categoryName] = category.cookieName;
-    }
-
-    return setComponents([
-        _react.default.createElement("script", {
-            key: "cookiehub-prequel",
-            dangerouslySetInnerHTML: {
-                __html: `
-                const stageHosts = ${JSON.stringify(pluginOptions.stageHosts)};
-                const stageMode = '${pluginOptions.stageMode && pluginOptions.stageHosts ? pluginOptions.stageMode : "demo"}';
-                if(!stageHosts && stageMode) {
-                    console.warn("gatsby-plugin-cookiehub-banner option 'stageMode' not allowed when no 'stageHosts' is given. Ignore option");
-                }
-                
-                if((stageHosts && stageHosts.includes(window.location.hostname) && stageMode == "demo") ||
-                       !stageHosts) {
- 
-                    const cookieHubUrl = '${cookieHubUrl}';
-                    const cookieHubDemoUrl = '${cookieHubDemoUrl}';
-                    var cpm = {};
-                    (function(_document,_window,b){
-                      var e=_document.getElementsByTagName("script")[0],element=_document.createElement("script");
-                      element.async=true;
-                      if(stageHosts && stageHosts.includes(window.location.hostname) && stageMode == "demo") {
-                         element.src='${cookieHubDemoUrl}';
-                      } else {
-                        element.src='${cookieHubUrl}';
-                      }
-                      element.onload=function(){_window.cookiehub.load(b);}
-                      e.parentNode.insertBefore(element,e);
-                    })(document,window,cpm);
-                }`
-            }
-        }),
-        /*        _react.default.createElement("script", {
-                        key: "gatsby-plugin-cookiehub-banner-src",
-                        src: cookieHubUrl
+                // Name of the event that is triggered
+                // on every Gatsby route change.
+                //
+                // Defaults to gatsby-route-change
+                //routeChangeEventName: "ROUTE_CHANGE",
+            },
+        },
+        {
+            resolve: `gatsby-plugin-cookiehub-banner`,
+            options: {
+                // The ID is part of the CookieHub URL: https://cookiehub.net/cc/YOUR_COOKIEHUB_ID.js
+                cookieHubId: "7096e979",
+                // Optional parameter (default false) - Use new v2 API.
+                cookieHubV2Api: true,
+                stageHosts: ["localhost", "stage.okaycloud.de"],
+                stageMode: "demo", // can be "off" (no banner at all) or "demo" (watermarked demo mode of cookiehub)
+                // Categories configured with CookieHub
+                categories: [
+                    {
+                        categoryName: 'analytics', // Unique id of the category which is set by Cookiehub.
+                        cookieName: 'gatsby-plugin-google-analytics-gdpr_cookies-enabled' // Your custom cookie name
+                    },
+                    {
+                        categoryName: 'marketing',
+                        cookieName: 'marketing-enabled'
                     }
-                ),*/
-        _react.default.createElement("script", {
-            key: "gatsby-plugin-cookiehub-banner-script",
-            dangerouslySetInnerHTML: {
-                __html: `
-                    if((stageHosts && stageHosts.includes(window.location.hostname) && stageMode == "demo") ||
-                       !stageHosts) {
-                        window.addEventListener("load", function() {
-                            const cookieNames =  ${JSON.stringify(cookieNames)};
-                            const handleCategoryUserInput = function(categoryName, allowed) {
-                                var cookieName = cookieNames[categoryName];
-                                if (cookieName === undefined) {
-                                    cookieName = 'gatsby-plugin-cookiehub-banner-' + categoryName + '-allowed';
-                                }
-                                const cookieString = cookieName + '=' + allowed + ';path=/';
-                                document.cookie = cookieString;
-                            };
-                            const cpm = { 
-                                onInitialise: function(status) {
-                                    for (var i = 0; i < status.categories.length; i++) {
-                                        var category = status.categories[i];
-                                        handleCategoryUserInput(category.id, category.value);
-                                    }
-                                },
-                                onAllow: function(category) {
-                                    handleCategoryUserInput(category, true);
-                                },
-                                onRevoke: function(category) {
-                                    handleCategoryUserInput(category, false);
-                                }
-                            }
-                            if (window.cookieconsent !== undefined) {
-                                window.cookieconsent.initialise(cpm);
-                            } else if (window.cookiehub !== undefined) {
-                                window.cookiehub.load(cpm);
-                            } else {
-                                console.log("CookieHub not loaded!");
-                            }
-                    });
-                }`
+                ]
             }
-        })
-    ]);
-};
+        },
+        /*        {
+                    resolve: `gatsby-plugin-favicon`,
+                    options: {
+                        logo: "./src/assets/images/favicon.png",
+                    }
+                },*/
+        `gatsby-plugin-react-helmet`,
+        `gatsby-plugin-sass`,
+        `gatsby-plugin-sitemap`,
+        `gatsby-plugin-styled-components`,
+        {
+            resolve: 'gatsby-plugin-html-attributes',
+            options: {
+                lang: 'de'
+            }
+        },
+        {
+            resolve: `gatsby-plugin-react-i18next`,
+            options: {
+                path: `${__dirname}/locales`,
+                languages: [`de`, `en`],
+                defaultLanguage: `de`,
+                redirect: true,
+                siteUrl: 'www.okaycloud.de',
 
-exports.onRenderBody = onRenderBody;
+                // you can pass any i18next options
+                // pass following options to allow message content as a key
+                i18nextOptions: {
+                    interpolation: {
+                        escapeValue: false // not needed for react as it escapes by default
+                    },
+                    keySeparator: false,
+                    nsSeparator: false
+                },
+                pages: [
+                    {
+                        matchPath: '/:lang?/blog/:uid',
+                        getLanguageFromPath: true,
+                        excludeLanguages: ['es']
+                    },
+                    {
+                        matchPath: '/preview',
+                        languages: ['en']
+                    }
+                ]
+            }
+        },
+        {
+            resolve: `gatsby-plugin-google-fonts`,
+            options: {
+                fonts: [
+                    `Nunito\:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900`,
+                ],
+                display: 'swap'
+            }
+        },
+        /*        {
+                    resolve: `gatsby-plugin-percy`,
+                    options: {
+                        // example options:
+                        // files: [`dir/!*.html`],
+                        // ignore: [`ignore/!*.html`],
+                        // config: `config/.percy.yaml`,
+                    },
+                },*/
+        /*{
+            resolve: `gatsby-plugin-algolia`,
+            options: {
+                // This plugin must be placed last in your list of plugins to ensure that it can query all the GraphQL data
+                resolve: `gatsby-plugin-algolia`,
+                options: {
+                    appId: process.env.ALGOLIA_APP_ID,
+                    apiKey: process.env.ALGOLIA_API_KEY,
+                    indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
+                    queries,
+                    chunkSize: 10000, // default: 1000
+                    settings: {
+                        // optional, any index settings
+                    },
+                    enablePartialUpdates: true, // default: false
+                    matchFields: ['slug', 'modified'], // Array<String> default: ['modified']
+                    concurrentQueries: false, // default: true
+                    skipIndexing: false, // default: false, useful for e.g. preview deploys or local development
+                },
+            },
+        }*/
+    ],
+}
